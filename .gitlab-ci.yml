@@ -1,0 +1,24 @@
+stages:
+  - test
+
+before_script:
+  - python --version ; pip --version  # For debugging
+  - pip install virtualenv
+  - virtualenv .venv
+  - source venv/bin/activate
+
+test:
+  stage: test
+  tags:
+    - generic
+    - small
+  image: python:3.10.8
+
+  script:
+    - export JIRA_API_KEY=$JIRA_API_KEY
+    - export JIRA_USERNAME=$JIRA_USERNAME
+    - export JIRA_BASE_URL=$JIRA_BASE_URL 
+    - export PASSWORD=$PASSWORD  
+    - pip install -r requirements.txt
+    - pip install -e .
+    - pytest
